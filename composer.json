@@ -1,0 +1,44 @@
+{
+  "name": "qingbing/yii-configure",
+  "description": "yii配置组件，包含：网站配置、表头配置、表单配置、替换配置等",
+  "type": "library",
+  "license": "MIT",
+  "keywords": [
+    "php",
+    "yii",
+    "site-configure",
+    "form-configure",
+    "header-configure",
+    "replace-configure"
+  ],
+  "homepage": "http://www.phpcorner.net",
+  "authors": [
+    {
+      "name": "qingbing",
+      "email": "780042175@qq.com"
+    }
+  ],
+  "require": {
+    "ext-json": "*",
+    "ext-openssl": "*",
+    "ext-curl": "*",
+    "php": "^7.1.0",
+    "yiisoft/yii2": "~2.0.14",
+    "yiisoft/yii2-bootstrap": "~2.0.0",
+    "yiisoft/yii2-httpclient": "^2.0",
+    "myweishanli/yii2-ip2location": "~1.0.0",
+    "yiisoft/yii2-queue": "^2.3",
+    "yiisoft/yii2-swiftmailer": "~2.0.0 || ~2.1.0",
+    "qingbing/zf-helper": "^1.0",
+    "qingbing/yii-helper": "^1.0"
+  },
+  "autoload": {
+    "files": [
+      "src/constant.php",
+      "src/functions.php"
+    ],
+    "psr-4": {
+      "YiiConfigure\\": "src"
+    }
+  }
+}
