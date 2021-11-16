@@ -1,5 +1,5 @@
 {
-  "name": "qingbing/yii-configure",
+  "name": "qingbing/yii2-configure",
   "description": "yii配置组件，包含：网站配置、表头配置、表单配置、替换配置等",
   "type": "library",
   "license": "MIT",
