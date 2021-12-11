@@ -33,10 +33,6 @@
     "qingbing/yii2-helper": "^1.0"
   },
   "autoload": {
-    "files": [
-      "src/constant.php",
-      "src/functions.php"
-    ],
     "psr-4": {
       "YiiConfigure\\": "src"
     }
