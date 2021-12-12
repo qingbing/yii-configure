@@ -8,8 +8,10 @@
 namespace YiiConfigure\form\logic;
 
 
+use Yii;
 use YiiConfigure\form\models\FormCategory;
 use YiiConfigure\form\models\FormOption;
+use YiiConfigure\form\models\FormSetting as FormSettingModel;
 use YiiHelper\helpers\AppHelper;
 use Zf\Helper\Exceptions\BusinessException;
 
@@ -43,7 +45,7 @@ class FormSetting
      */
     protected $category;
     /**
-     * @var \YiiConfigure\form\models\FormSetting
+     * @var FormSettingModel
      */
     protected $setting;
     /**
@@ -97,7 +99,7 @@ class FormSetting
         $this->category = $category;
         $setting        = $category->setting;
         if (null === $setting) {
-            $setting      = \Yii::createObject(\YiiConfigure\form\models\FormSetting::class);
+            $setting      = Yii::createObject(FormSettingModel::class);
             $setting->key = $category->key;
         }
         $this->setting = $setting;
@@ -158,7 +160,6 @@ class FormSetting
             }
             return $this->mergeSetting($values);
         });
-
         if (null === $formKey) {
             return $settings;
         }
@@ -180,7 +181,7 @@ class FormSetting
     public function save(array $params)
     {
         // 先清理缓存
-        \Yii::$app->cacheHelper->delete($this->getCacheKey());
+        Yii::$app->cacheHelper->delete($this->getCacheKey());
         // 基本数据初始化
         $this->init();
         $settings        = $this->mergeSetting($params);

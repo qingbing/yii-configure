@@ -26,7 +26,6 @@ class FormSettingService extends Service implements IFormSettingService
      *
      * @param array $params
      * @return bool|mixed|string|null
-     * @throws BusinessException
      */
     public function get(array $params)
     {
@@ -39,6 +38,7 @@ class FormSettingService extends Service implements IFormSettingService
      * @param array $params
      * @return bool
      * @throws BusinessException
+     * @throws \yii\base\InvalidConfigException
      * @throws \yii\db\Exception
      */
     public function save(array $params): bool

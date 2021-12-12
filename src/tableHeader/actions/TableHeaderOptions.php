@@ -8,6 +8,7 @@
 namespace YiiConfigure\tableHeader\actions;
 
 
+use Exception;
 use yii\base\Action;
 use YiiConfigure\tableHeader\models\HeaderCategory;
 use YiiConfigure\tableHeader\models\HeaderOption;
@@ -17,10 +18,10 @@ use YiiHelper\traits\TValidator;
 /**
  * 操作: 表头选项接口
  *
- * Class TableHeader
+ * Class TableHeaderOptions
  * @package YiiConfigure\tableHeader\actions
  */
-class TableHeader extends Action
+class TableHeaderOptions extends Action
 {
     use TValidator;
     use TResponse;
@@ -28,8 +29,7 @@ class TableHeader extends Action
     /**
      *
      * @return array
-     * @throws \Zf\Helper\Exceptions\BusinessException
-     * @throws \yii\base\InvalidConfigException
+     * @throws Exception
      */
     public function run()
     {

@@ -8,6 +8,8 @@
 namespace YiiConfigure\tableHeader\services;
 
 
+use Exception;
+use Yii;
 use yii\base\Action;
 use YiiConfigure\tableHeader\interfaces\IHeaderOptionService;
 use YiiConfigure\tableHeader\models\HeaderCategory;
@@ -16,7 +18,6 @@ use YiiHelper\abstracts\Service;
 use YiiHelper\helpers\AppHelper;
 use YiiHelper\helpers\Req;
 use Zf\Helper\Exceptions\BusinessException;
-use Zf\Helper\Exceptions\CustomException;
 use Zf\Helper\Exceptions\ForbiddenHttpException;
 
 /**
@@ -33,9 +34,11 @@ class HeaderOptionService extends Service implements IHeaderOptionService
     protected $category;
 
     /**
+     * 在action前统一执行
+     *
      * @param Action|null $action
      * @return bool
-     * @throws CustomException
+     * @throws Exception
      */
     public function beforeAction(Action $action = null)
     {
@@ -76,7 +79,7 @@ class HeaderOptionService extends Service implements IHeaderOptionService
      */
     public function add(array $params): bool
     {
-        $model = \Yii::createObject(HeaderOption::class);
+        $model = Yii::createObject(HeaderOption::class);
         $model->setFilterAttributes($params);
         return $model->saveOrException();
     }

@@ -8,12 +8,18 @@
 namespace YiiConfigure\form\services;
 
 
+use Exception;
+use Yii;
+use yii\base\Action;
 use YiiConfigure\form\interfaces\IFormOptionService;
 use YiiConfigure\form\models\FormCategory;
 use YiiConfigure\form\models\FormOption;
 use YiiHelper\abstracts\Service;
 use YiiHelper\helpers\AppHelper;
+use YiiHelper\helpers\Req;
 use Zf\Helper\Exceptions\BusinessException;
+use Zf\Helper\Exceptions\CustomException;
+use Zf\Helper\Exceptions\ForbiddenHttpException;
 
 /**
  * 服务: 表单选项管理
@@ -24,6 +30,36 @@ use Zf\Helper\Exceptions\BusinessException;
 class FormOptionService extends Service implements IFormOptionService
 {
     /**
+     * @var FormCategory
+     */
+    protected $category;
+
+    /**
+     * 在action前统一执行
+     *
+     * @param Action|null $action
+     * @return bool
+     * @throws Exception
+     */
+    public function beforeAction(Action $action = null)
+    {
+        $controller = $action->controller;
+        /* @var \YiiHelper\abstracts\RestController $controller */
+        $this->category = FormCategory::findOne([
+            'key' => $controller->getParam('key', null),
+        ]);
+        if (null === $this->category) {
+            throw new BusinessException("不存在的表单类型");
+        }
+        if (!Req::getIsSuper() && !$this->category->is_open) {
+            if (in_array($action->id, ['add', 'edit', 'del', 'refresh-order', 'order-up', 'order-down'])) {
+                throw new ForbiddenHttpException('非超级管理员不能操作该表单类型数据');
+            }
+        }
+        return true;
+    }
+
+    /**
      * 表单选项列表
      *
      * @param array|null $params
@@ -31,10 +67,7 @@ class FormOptionService extends Service implements IFormOptionService
      */
     public function list(array $params = []): array
     {
-        $category = FormCategory::findOne([
-            'key' => $params['key'],
-        ]);
-        return $category->options;
+        return $this->category->options;
     }
 
     /**
@@ -47,7 +80,7 @@ class FormOptionService extends Service implements IFormOptionService
      */
     public function add(array $params): bool
     {
-        $model = \Yii::createObject(FormOption::class);
+        $model = Yii::createObject(FormOption::class);
         $model->setFilterAttributes($params);
         return $model->saveOrException();
     }
@@ -104,10 +137,7 @@ class FormOptionService extends Service implements IFormOptionService
      */
     public function refreshOrder(array $params): bool
     {
-        $category = FormCategory::findOne([
-            'key' => $params['key'],
-        ]);
-        $options  = $category->options;
+        $options = $this->category->options;
         AppHelper::app()->getDb()->transaction(function () use ($options) {
             $sort_order = 1;
             foreach ($options as $option) {
@@ -188,7 +218,8 @@ class FormOptionService extends Service implements IFormOptionService
     protected function getModel(array $params): FormOption
     {
         $model = FormOption::findOne([
-            'id' => $params['id'] ?? null
+            'id'  => $params['id'] ?? null,
+            'key' => $params['key'] ?? null,
         ]);
         if (null === $model) {
             throw new BusinessException("表单选项不存在");

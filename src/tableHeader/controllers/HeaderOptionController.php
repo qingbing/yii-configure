@@ -149,8 +149,8 @@ class HeaderOptionController extends RestController
         // 参数验证和获取
         $params = $this->validateParams([
             [['key', 'id'], 'required'],
-            ['id', 'exist', 'label' => 'ID', 'targetClass' => HeaderOption::class, 'targetAttribute' => 'id'],
             ['key', 'exist', 'label' => '表头标记', 'targetClass' => HeaderCategory::class, 'targetAttribute' => 'key'],
+            ['id', 'exist', 'label' => 'ID', 'targetClass' => HeaderOption::class, 'targetAttribute' => 'id'],
         ]);
         // 业务处理
         $res = $this->service->del($params);
@@ -169,8 +169,8 @@ class HeaderOptionController extends RestController
         // 参数验证和获取
         $params = $this->validateParams([
             [['key', 'id'], 'required'],
-            ['id', 'exist', 'label' => 'ID', 'targetClass' => HeaderOption::class, 'targetAttribute' => 'id'],
             ['key', 'exist', 'label' => '表头标记', 'targetClass' => HeaderCategory::class, 'targetAttribute' => 'key'],
+            ['id', 'exist', 'label' => 'ID', 'targetClass' => HeaderOption::class, 'targetAttribute' => 'id'],
         ]);
         // 业务处理
         $res = $this->service->view($params);
@@ -208,8 +208,8 @@ class HeaderOptionController extends RestController
         // 参数验证和获取
         $params = $this->validateParams([
             [['key', 'id'], 'required'],
-            ['id', 'exist', 'label' => 'ID', 'targetClass' => HeaderOption::class, 'targetAttribute' => 'id'],
             ['key', 'exist', 'label' => '表头标记', 'targetClass' => HeaderCategory::class, 'targetAttribute' => 'key'],
+            ['id', 'exist', 'label' => 'ID', 'targetClass' => HeaderOption::class, 'targetAttribute' => 'id'],
         ]);
         // 业务处理
         $res = $this->service->orderUp($params);
@@ -228,8 +228,8 @@ class HeaderOptionController extends RestController
         // 参数验证和获取
         $params = $this->validateParams([
             [['key', 'id'], 'required'],
-            ['id', 'exist', 'label' => 'ID', 'targetClass' => HeaderOption::class, 'targetAttribute' => 'id'],
             ['key', 'exist', 'label' => '表头标记', 'targetClass' => HeaderCategory::class, 'targetAttribute' => 'key'],
+            ['id', 'exist', 'label' => 'ID', 'targetClass' => HeaderOption::class, 'targetAttribute' => 'id'],
         ]);
         // 业务处理
         $res = $this->service->orderDown($params);

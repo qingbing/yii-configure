@@ -6,7 +6,7 @@ CREATE TABLE `{{%form_category}}` (
   `name` varchar(100) NOT NULL COMMENT '表单名称',
   `description` varchar(255) NOT NULL DEFAULT '' COMMENT '表单描述',
   `sort_order` tinyint(4) unsigned NOT NULL DEFAULT '0' COMMENT '排序',
-  `is_setting` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '配置类型[0:搜集表单，1:配置项]',
+  `is_setting` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '配置类型[0:搜集表单，1:配置项]',
   `is_open` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '是否开放，否时管理员不可操作（不可见）',
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',

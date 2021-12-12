@@ -8,6 +8,7 @@
 namespace YiiConfigure\tableHeader\controllers;
 
 
+use Exception;
 use YiiConfigure\tableHeader\interfaces\IHeaderCategoryService;
 use YiiConfigure\tableHeader\models\HeaderCategory;
 use YiiConfigure\tableHeader\services\HeaderCategoryService;
@@ -20,7 +21,7 @@ use Zf\Helper\Traits\Models\TLabelYesNo;
  * Class HeaderCategoryController
  * @package YiiConfigure\tableHeader\controllers
  *
- * @property-read HeaderCategoryService $service
+ * @property-read IHeaderCategoryService $service
  */
 class HeaderCategoryController extends RestController
 {
@@ -31,7 +32,7 @@ class HeaderCategoryController extends RestController
      * 表头搜索列表
      *
      * @return array
-     * @throws \Exception
+     * @throws Exception
      */
     public function actionList()
     {
@@ -52,7 +53,7 @@ class HeaderCategoryController extends RestController
      * 添加表头
      *
      * @return array
-     * @throws \Exception
+     * @throws Exception
      */
     public function actionAdd()
     {
@@ -76,7 +77,7 @@ class HeaderCategoryController extends RestController
      * 编辑表头
      *
      * @return array
-     * @throws \Exception
+     * @throws Exception
      */
     public function actionEdit()
     {
@@ -104,7 +105,7 @@ class HeaderCategoryController extends RestController
      * 删除表头
      *
      * @return array
-     * @throws \Exception
+     * @throws Exception
      */
     public function actionDel()
     {
@@ -123,7 +124,7 @@ class HeaderCategoryController extends RestController
      * 查看表头详情
      *
      * @return array
-     * @throws \Exception
+     * @throws Exception
      */
     public function actionView()
     {

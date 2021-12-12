@@ -8,6 +8,7 @@
 namespace YiiConfigure\tableHeader\services;
 
 
+use Yii;
 use YiiConfigure\tableHeader\interfaces\IHeaderCategoryService;
 use YiiConfigure\tableHeader\models\HeaderCategory;
 use YiiHelper\abstracts\Service;
@@ -54,7 +55,7 @@ class HeaderCategoryService extends Service implements IHeaderCategoryService
         if (!Req::getIsSuper()) {
             unset($params['is_open']);
         }
-        $model = \Yii::createObject(HeaderCategory::class);
+        $model = Yii::createObject(HeaderCategory::class);
         $model->setFilterAttributes($params);
         return $model->saveOrException();
     }

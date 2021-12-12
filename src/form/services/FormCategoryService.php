@@ -8,12 +8,15 @@
 namespace YiiConfigure\form\services;
 
 
+use Yii;
 use yii\db\StaleObjectException;
 use YiiConfigure\form\interfaces\IFormCategoryService;
 use YiiConfigure\form\models\FormCategory;
 use YiiHelper\abstracts\Service;
 use YiiHelper\helpers\Pager;
+use YiiHelper\helpers\Req;
 use Zf\Helper\Exceptions\BusinessException;
+use Zf\Helper\Exceptions\ForbiddenHttpException;
 
 /**
  * 服务: 表单选项管理
@@ -34,7 +37,7 @@ class FormCategoryService extends Service implements IFormCategoryService
         $query = FormCategory::find()
             ->orderBy('sort_order ASC');
         // 等于查询
-        $this->attributeWhere($query, $params, ['is_setting', 'is_open', 'is_enable']);
+        $this->attributeWhere($query, $params, ['is_setting', 'is_open']);
         // like 查询
         $this->likeWhere($query, $params, ['key', 'name']);
         return Pager::getInstance()->pagination($query, $params['pageNo'], $params['pageSize']);
@@ -50,7 +53,10 @@ class FormCategoryService extends Service implements IFormCategoryService
      */
     public function add(array $params): bool
     {
-        $model = \Yii::createObject(FormCategory::class);
+        if (!Req::getIsSuper()) {
+            unset($params['is_open'], $params['is_setting']);
+        }
+        $model = Yii::createObject(FormCategory::class);
         $model->setFilterAttributes($params);
         return $model->saveOrException();
     }
@@ -61,11 +67,18 @@ class FormCategoryService extends Service implements IFormCategoryService
      * @param array $params
      * @return bool
      * @throws BusinessException
+     * @throws ForbiddenHttpException
      * @throws \yii\db\Exception
      */
     public function edit(array $params): bool
     {
         $model = $this->getModel($params);
+        if (!Req::getIsSuper()) {
+            if ($model->is_open) {
+                throw new ForbiddenHttpException('非超级管理员不能修改表头');
+            }
+            unset($params['is_open'], $params['is_setting']);
+        }
         unset($params['key']);
         $model->setFilterAttributes($params);
         return $model->saveOrException();
@@ -77,12 +90,16 @@ class FormCategoryService extends Service implements IFormCategoryService
      * @param array $params
      * @return bool
      * @throws BusinessException
-     * @throws \Throwable
+     * @throws ForbiddenHttpException
      * @throws StaleObjectException
+     * @throws \Throwable
      */
     public function del(array $params): bool
     {
         $model = $this->getModel($params);
+        if (!Req::getIsSuper() && $model->is_open) {
+            throw new ForbiddenHttpException('非超级管理员不能修改表头');
+        }
         return $model->delete();
     }
 

@@ -16,7 +16,6 @@ use Zf\Helper\Exceptions\BusinessException;
  * @property int $sort_order 排序
  * @property int $is_setting 配置类型[0:搜集表单，1:配置项]
  * @property int $is_open 是否开放，否时管理员不可操作（不可见）
- * @property int $is_enable 启用状态
  * @property string $created_at 创建时间
  * @property string $updated_at 更新时间
  *
@@ -41,7 +40,7 @@ class FormCategory extends Model
     {
         return [
             [['key', 'name'], 'required'],
-            [['sort_order', 'is_setting', 'is_open', 'is_enable'], 'integer'],
+            [['sort_order', 'is_setting', 'is_open'], 'integer'],
             [['created_at', 'updated_at'], 'safe'],
             [['key', 'name'], 'string', 'max' => 100],
             [['description'], 'string', 'max' => 255],
@@ -61,7 +60,6 @@ class FormCategory extends Model
             'sort_order'  => '排序',
             'is_setting'  => '配置类型[0:搜集表单，1:配置项]',
             'is_open'     => '是否开放，否时管理员不可操作（不可见）',
-            'is_enable'   => '启用状态',
             'created_at'  => '创建时间',
             'updated_at'  => '更新时间',
         ];
@@ -74,10 +72,7 @@ class FormCategory extends Model
      */
     public function getOptionCount()
     {
-        return $this->hasOne(
-            FormOption::class,
-            ['key' => 'key']
-        )->count();
+        return $this->hasOne(FormOption::class, ['key' => 'key'])->count();
     }
 
     /**
@@ -87,10 +82,7 @@ class FormCategory extends Model
      */
     public function getOptions()
     {
-        return $this->hasMany(
-            FormOption::class,
-            ['key' => 'key']
-        )->orderBy("sort_order ASC, id ASC");
+        return $this->hasMany(FormOption::class, ['key' => 'key'])->orderBy("sort_order ASC, id ASC");
     }
 
     /**
@@ -100,10 +92,7 @@ class FormCategory extends Model
      */
     public function getSetting()
     {
-        return $this->hasOne(
-            FormSetting::class,
-            ['key' => 'key']
-        );
+        return $this->hasOne(FormSetting::class, ['key' => 'key']);
     }
 
     /**

@@ -133,7 +133,8 @@ class FormOptionController extends RestController
     {
         // 参数验证和获取
         $params = $this->validateParams([
-            [['id'], 'required'],
+            [['key', 'id'], 'required'],
+            ['key', 'exist', 'label' => '表单标记', 'targetClass' => FormCategory::class, 'targetAttribute' => 'key'],
             ['id', 'exist', 'label' => 'ID', 'targetClass' => FormOption::class, 'targetAttribute' => 'id'],
         ]);
         // 业务处理
@@ -152,7 +153,8 @@ class FormOptionController extends RestController
     {
         // 参数验证和获取
         $params = $this->validateParams([
-            [['id'], 'required'],
+            [['key', 'id'], 'required'],
+            ['key', 'exist', 'label' => '表单标记', 'targetClass' => FormCategory::class, 'targetAttribute' => 'key'],
             ['id', 'exist', 'label' => 'ID', 'targetClass' => FormOption::class, 'targetAttribute' => 'id'],
         ]);
         // 业务处理
@@ -190,7 +192,8 @@ class FormOptionController extends RestController
     {
         // 参数验证和获取
         $params = $this->validateParams([
-            [['id'], 'required'],
+            [['key', 'id'], 'required'],
+            ['key', 'exist', 'label' => '表单标记', 'targetClass' => FormCategory::class, 'targetAttribute' => 'key'],
             ['id', 'exist', 'label' => 'ID', 'targetClass' => FormOption::class, 'targetAttribute' => 'id'],
         ]);
         // 业务处理
@@ -209,7 +212,8 @@ class FormOptionController extends RestController
     {
         // 参数验证和获取
         $params = $this->validateParams([
-            [['id'], 'required'],
+            [['key', 'id'], 'required'],
+            ['key', 'exist', 'label' => '表单标记', 'targetClass' => FormCategory::class, 'targetAttribute' => 'key'],
             ['id', 'exist', 'label' => 'ID', 'targetClass' => FormOption::class, 'targetAttribute' => 'id'],
         ]);
         // 业务处理
