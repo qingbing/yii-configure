@@ -6,7 +6,7 @@ CREATE TABLE `{{%form_category}}` (
   `name` varchar(100) NOT NULL COMMENT '表头标志别名',
   `description` varchar(255) NOT NULL DEFAULT '' COMMENT '表头描述',
   `sort_order` int(8) unsigned NOT NULL DEFAULT '1000' COMMENT '排序',
-  `is_open` tinyint(1) unsigned NOT NULL DEFAULT '0' COMMENT '是否开放表头，否时管理员不可操作（不可见）',
+  `is_open` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '是否开放表头，否时管理员不可操作（不可见）',
   PRIMARY KEY (`key`),
   UNIQUE KEY `uk_name` (`name`),
   KEY `idx_sortOrder` (`sort_order`)

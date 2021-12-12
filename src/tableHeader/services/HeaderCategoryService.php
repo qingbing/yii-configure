@@ -12,7 +12,9 @@ use YiiConfigure\tableHeader\interfaces\IHeaderCategoryService;
 use YiiConfigure\tableHeader\models\HeaderCategory;
 use YiiHelper\abstracts\Service;
 use YiiHelper\helpers\Pager;
+use YiiHelper\helpers\Req;
 use Zf\Helper\Exceptions\BusinessException;
+use Zf\Helper\Exceptions\ForbiddenHttpException;
 
 /**
  * 逻辑类: 表头管理
@@ -49,6 +51,9 @@ class HeaderCategoryService extends Service implements IHeaderCategoryService
      */
     public function add(array $params): bool
     {
+        if (!Req::getIsSuper()) {
+            unset($params['is_open']);
+        }
         $model = \Yii::createObject(HeaderCategory::class);
         $model->setFilterAttributes($params);
         return $model->saveOrException();
@@ -60,11 +65,18 @@ class HeaderCategoryService extends Service implements IHeaderCategoryService
      * @param array $params
      * @return bool
      * @throws BusinessException
+     * @throws ForbiddenHttpException
      * @throws \yii\db\Exception
      */
     public function edit(array $params): bool
     {
         $model = $this->getModel($params);
+        if (!Req::getIsSuper()) {
+            if ($model->is_open) {
+                throw new ForbiddenHttpException('非超级管理员不能修改表头');
+            }
+            unset($params['is_open']);
+        }
         unset($params['key']);
         $model->setFilterAttributes($params);
         return $model->saveOrException();
@@ -82,6 +94,9 @@ class HeaderCategoryService extends Service implements IHeaderCategoryService
     public function del(array $params): bool
     {
         $model = $this->getModel($params);
+        if (!Req::getIsSuper() && $model->is_open) {
+            throw new ForbiddenHttpException('非超级管理员不能修改表头');
+        }
         return $model->delete();
     }
 
