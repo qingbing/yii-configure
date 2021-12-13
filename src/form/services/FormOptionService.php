@@ -43,10 +43,8 @@ class FormOptionService extends Service implements IFormOptionService
      */
     public function beforeAction(Action $action = null)
     {
-        $controller = $action->controller;
-        /* @var \YiiHelper\abstracts\RestController $controller */
         $this->category = FormCategory::findOne([
-            'key' => $controller->getParam('key', null),
+            'key' => $action->controller->getParam('key', null),
         ]);
         if (null === $this->category) {
             throw new BusinessException("不存在的表单类型");

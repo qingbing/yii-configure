@@ -9,6 +9,7 @@ namespace YiiConfigure\controllers\inner;
 
 
 use YiiConfigure\form\actions\FormSetting;
+use YiiConfigure\replaceSetting\actions\ReplaceSettingParse;
 use YiiHelper\abstracts\RestController;
 
 /**
@@ -28,7 +29,9 @@ class PublicController extends RestController
     {
         return [
             // 获取设置表单键值对
-            'form-setting' => FormSetting::class,
+            'form-setting'    => FormSetting::class,
+            // 解析替换配置内容
+            'replace-setting' => ReplaceSettingParse::class,
         ];
     }
 }

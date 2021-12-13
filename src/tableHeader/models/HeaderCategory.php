@@ -13,7 +13,7 @@ use Zf\Helper\Exceptions\BusinessException;
  * @property string $name 表头标志别名
  * @property string $description 表头描述
  * @property int $sort_order 排序
- * @property int $is_open 是否开放表头，否时管理员不可操作（不可见）
+ * @property int $is_open 是否开放表头，否时非超级管理员不可操作（不可见）
  *
  * @property-read int $optionCount 拥有的子项数量
  * @property-read HeaderOption[] $options 拥有的子项目

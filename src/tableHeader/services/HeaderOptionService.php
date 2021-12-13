@@ -42,10 +42,8 @@ class HeaderOptionService extends Service implements IHeaderOptionService
      */
     public function beforeAction(Action $action = null)
     {
-        $controller = $action->controller;
-        /* @var \YiiHelper\abstracts\RestController $controller */
         $this->category = HeaderCategory::findOne([
-            'key' => $controller->getParam('key', null),
+            'key' => $action->controller->getParam('key', null),
         ]);
         if (null === $this->category) {
             throw new BusinessException("不存在的表头类型");

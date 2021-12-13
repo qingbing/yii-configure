@@ -15,7 +15,7 @@ use Zf\Helper\Exceptions\BusinessException;
  * @property string $description 表单描述
  * @property int $sort_order 排序
  * @property int $is_setting 配置类型[0:搜集表单，1:配置项]
- * @property int $is_open 是否开放，否时管理员不可操作（不可见）
+ * @property int $is_open 是否开放，否时非超级管理员不可操作（不可见）
  * @property string $created_at 创建时间
  * @property string $updated_at 更新时间
  *
@@ -59,7 +59,7 @@ class FormCategory extends Model
             'description' => '表单描述',
             'sort_order'  => '排序',
             'is_setting'  => '配置类型[0:搜集表单，1:配置项]',
-            'is_open'     => '是否开放，否时管理员不可操作（不可见）',
+            'is_open'     => '是否开放，否时非超级管理员不可操作（不可见）',
             'created_at'  => '创建时间',
             'updated_at'  => '更新时间',
         ];

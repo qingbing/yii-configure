@@ -49,3 +49,12 @@ defined('COM_BOOT_ACCESS_LOG_OPEN') or define('COM_BOOT_ACCESS_LOG_OPEN', true);
 - 对于"是否开放"字段只有超级管理员能够进行操作
 - 对于"开放"的表单类型，只有超级管理员能编辑和删除
 
+### 2.3 对于替换配置
+- \YiiConfigure\replaceSetting\controllers\ReplaceSettingController, 替换配置的管理(只能超级管理员操作)
+- \YiiConfigure\controllers\web\ReplaceSettingController, 只提供给普通管理员修改配置内容
+- 解析 replace-setting 内容
+    - Action: \YiiConfigure\replaceSetting\actions\ReplaceSettingParse
+    - Logic: \YiiConfigure\replaceSetting\logic\ReplaceSetting::getInstance($code)->getContent($fields)
+
+
+
