@@ -18,10 +18,10 @@ use YiiHelper\traits\TValidator;
 /**
  * 操作: 获取最终替换的文本
  *
- * Class ReplaceSettingParse
+ * Class ActionReplaceSettingParse
  * @package YiiConfigure\replaceSetting\actions
  */
-class ReplaceSettingParse extends Action
+class ActionReplaceSettingParse extends Action
 {
     use TValidator;
     use TResponse;

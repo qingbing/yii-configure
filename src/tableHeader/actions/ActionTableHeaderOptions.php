@@ -18,10 +18,10 @@ use YiiHelper\traits\TValidator;
 /**
  * 操作: 表头选项接口
  *
- * Class TableHeaderOptions
+ * Class ActionTableHeaderOptions
  * @package YiiConfigure\tableHeader\actions
  */
-class TableHeaderOptions extends Action
+class ActionTableHeaderOptions extends Action
 {
     use TValidator;
     use TResponse;

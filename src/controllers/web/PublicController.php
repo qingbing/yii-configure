@@ -8,8 +8,8 @@
 namespace YiiConfigure\controllers\web;
 
 
-use YiiConfigure\form\actions\FormOption;
-use YiiConfigure\tableHeader\actions\TableHeaderOptions;
+use YiiConfigure\form\actions\ActionFormOption;
+use YiiConfigure\tableHeader\actions\ActionTableHeaderOptions;
 use YiiHelper\abstracts\RestController;
 
 /**
@@ -29,9 +29,9 @@ class PublicController extends RestController
     {
         return [
             // 获取表头类型选项
-            'header-options' => TableHeaderOptions::class,
+            'header-options' => ActionTableHeaderOptions::class,
             // 获取表单类型选项
-            'form-options'   => FormOption::class,
+            'form-options'   => ActionFormOption::class,
         ];
     }
 }

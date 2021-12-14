@@ -17,10 +17,10 @@ use YiiHelper\traits\TValidator;
 /**
  * 操作: 获取表单配置
  *
- * Class FormSetting
+ * Class ActionFormSetting
  * @package YiiConfigure\form\actions
  */
-class FormSetting extends Action
+class ActionFormSetting extends Action
 {
     use TValidator;
     use TResponse;

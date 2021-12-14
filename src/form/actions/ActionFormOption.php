@@ -18,10 +18,10 @@ use YiiHelper\traits\TValidator;
 /**
  * 操作: 表单选项接口
  *
- * Class FormOption
+ * Class ActionFormOption
  * @package YiiConfigure\form\actions
  */
-class FormOption extends Action
+class ActionFormOption extends Action
 {
     use TValidator;
     use TResponse;
