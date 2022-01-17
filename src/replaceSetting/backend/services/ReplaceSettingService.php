@@ -9,12 +9,10 @@ namespace YiiConfigure\replaceSetting\backend\services;
 
 
 use Yii;
-use yii\base\Action;
 use YiiConfigure\replaceSetting\backend\interfaces\IReplaceSettingService;
 use YiiConfigure\replaceSetting\models\ReplaceSetting;
-use YiiHelper\abstracts\Service;
+use YiiHelper\abstracts\SuperService;
 use YiiHelper\helpers\Pager;
-use YiiHelper\helpers\Req;
 use Zf\Helper\Exceptions\BusinessException;
 use Zf\Helper\Exceptions\ForbiddenHttpException;
 use Zf\Helper\Exceptions\UnsupportedException;
@@ -25,34 +23,8 @@ use Zf\Helper\Exceptions\UnsupportedException;
  * Class ReplaceSettingService
  * @package YiiConfigure\replaceSetting\backend\services
  */
-class ReplaceSettingService extends Service implements IReplaceSettingService
+class ReplaceSettingService extends SuperService implements IReplaceSettingService
 {
-    protected $isSuper; // 是否超管
-
-    /**
-     * 在action前统一执行
-     *
-     * @param Action|null $action
-     * @return bool
-     */
-    public function beforeAction(Action $action = null)
-    {
-        $this->isSuper = Req::getIsSuper();
-        return parent::beforeAction($action);
-    }
-
-    /**
-     * 必须是超管才能操作
-     *
-     * @throws ForbiddenHttpException
-     */
-    protected function requireSuper()
-    {
-        if (!$this->isSuper) {
-            throw new ForbiddenHttpException("您无权操作");
-        }
-    }
-
     /**
      * 项目列表
      *
@@ -77,7 +49,7 @@ class ReplaceSettingService extends Service implements IReplaceSettingService
             $this->attributeWhere($query, $params, 'is_open');
         } else {
             // 非超管人员，只能查看开放配置
-            $this->attributeWhere($query, $params, IS_YES);
+            $query->andWhere(['=', 'is_open', IS_YES]);
         }
         // like 查询
         $this->likeWhere($query, $params, ['code', 'name']);
