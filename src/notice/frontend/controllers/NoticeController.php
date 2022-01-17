@@ -56,7 +56,7 @@ class NoticeController extends RestController
         // 参数验证和获取
         $params = $this->validateParams([
             ['title', 'string', 'label' => '标题'],
-            ['is_top', 'in', 'range' => array_keys(TLabelYesNo::isLabels()), 'label' => '置顶'],
+            ['is_top', 'boolean', 'label' => '置顶'],
         ], null, true);
         // 业务处理
         $res = $this->service->list($params);
