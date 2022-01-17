@@ -40,8 +40,8 @@ class FormCategoryController extends RestController
         $params = $this->validateParams([
             ['key', 'string', 'label' => '表单标记'],
             ['name', 'string', 'label' => '表单别名'],
-            ['is_setting', 'in', 'range' => array_keys(TLabelYesNo::isLabels()), 'label' => '是否配置'],
-            ['is_open', 'in', 'range' => array_keys(TLabelYesNo::isLabels()), 'label' => '是否开放'],
+            ['is_setting', 'boolean', 'label' => '是否配置'],
+            ['is_open', 'boolean', 'label' => '是否开放'],
         ], null, true);
 
         // 业务处理
@@ -65,8 +65,8 @@ class FormCategoryController extends RestController
             ['name', 'unique', 'label' => '表单别名', 'targetClass' => FormCategory::class, 'targetAttribute' => 'name'],
             ['description', 'string', 'label' => '表单描述'],
             ['sort_order', 'integer', 'label' => '排序'],
-            ['is_setting', 'in', 'range' => array_keys(TLabelYesNo::isLabels()), 'label' => '是否配置'],
-            ['is_open', 'in', 'range' => array_keys(TLabelYesNo::isLabels()), 'label' => '是否开放'],
+            ['is_setting', 'boolean', 'label' => '是否配置'],
+            ['is_open', 'boolean', 'label' => '是否开放'],
         ]);
 
         // 业务处理
@@ -92,7 +92,7 @@ class FormCategoryController extends RestController
             ['name', 'unique', 'label' => '表单别名', 'targetClass' => FormCategory::class, 'targetAttribute' => 'name', 'filter' => ['!=', 'key', $key]],
             ['description', 'string', 'label' => '表单描述'],
             ['sort_order', 'integer', 'label' => '排序'],
-            ['is_open', 'in', 'range' => array_keys(TLabelYesNo::isLabels()), 'label' => '是否开放'],
+            ['is_open', 'boolean', 'label' => '是否开放'],
         ]);
         // 业务处理
         $res = $this->service->edit($params);
