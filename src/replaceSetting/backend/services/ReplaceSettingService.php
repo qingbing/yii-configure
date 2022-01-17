@@ -67,7 +67,7 @@ class ReplaceSettingService extends SuperService implements IReplaceSettingServi
      */
     public function add(array $params): bool
     {
-        $this->requireSuper();
+        $this->superRequired();
         $model = Yii::createObject(ReplaceSetting::class);
         $model->setFilterAttributes($params);
         return $model->saveOrException();
@@ -84,7 +84,7 @@ class ReplaceSettingService extends SuperService implements IReplaceSettingServi
      */
     public function edit(array $params): bool
     {
-        $this->requireSuper();
+        $this->superRequired();
         $model = $this->getModel($params);
         unset($params['code']);
         $model->setFilterAttributes($params);
@@ -104,7 +104,7 @@ class ReplaceSettingService extends SuperService implements IReplaceSettingServi
     public function del(array $params): bool
     {
         throw new UnsupportedException("该功能未开通，建议通过SQL实现");
-        //$this->requireSuper();
+        //$this->superRequired();
         //return $this->getModel($params)->delete();
     }
 
@@ -118,7 +118,7 @@ class ReplaceSettingService extends SuperService implements IReplaceSettingServi
      */
     public function view(array $params)
     {
-        $this->requireSuper();
+        $this->superRequired();
         return $this->getModel($params);
     }
 
