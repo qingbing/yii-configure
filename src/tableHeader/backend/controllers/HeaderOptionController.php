@@ -16,7 +16,6 @@ use YiiConfigure\tableHeader\models\HeaderOption;
 use YiiHelper\abstracts\RestController;
 use YiiHelper\validators\JsonValidator;
 use Zf\Helper\Traits\Models\TLabelEnable;
-use Zf\Helper\Traits\Models\TLabelYesNo;
 
 /**
  * 控制器: 表头选项管理

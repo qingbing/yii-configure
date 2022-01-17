@@ -13,7 +13,6 @@ use YiiConfigure\tableHeader\backend\interfaces\IHeaderCategoryService;
 use YiiConfigure\tableHeader\backend\services\HeaderCategoryService;
 use YiiConfigure\tableHeader\models\HeaderCategory;
 use YiiHelper\abstracts\RestController;
-use Zf\Helper\Traits\Models\TLabelYesNo;
 
 /**
  * 控制器: 表头选项管理
