@@ -8,7 +8,7 @@
 namespace YiiConfigure\replaceSetting\backend\interfaces;
 
 
-use YiiHelper\services\interfaces\IService;
+use YiiHelper\services\interfaces\ICurdService;
 
 /**
  * 接口类: 替换配置(web，只为编辑内容提供接口输出)
@@ -16,7 +16,7 @@ use YiiHelper\services\interfaces\IService;
  * Interface IReplaceSettingService
  * @package YiiConfigure\replaceSetting\backend\interfaces
  */
-interface IReplaceSettingService extends IService
+interface IReplaceSettingService extends ICurdService
 {
     /**
      * 开放状态的替换配置做成选项
@@ -39,7 +39,7 @@ interface IReplaceSettingService extends IService
      * @param array $params
      * @return bool
      */
-    public function save(array $params = []): bool;
+    public function saveContent(array $params = []): bool;
 
     /**
      * 替换配置详情

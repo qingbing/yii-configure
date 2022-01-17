@@ -8,14 +8,16 @@
 namespace YiiConfigure\replaceSetting\backend\services;
 
 
-use Exception;
+use Yii;
 use yii\base\Action;
 use YiiConfigure\replaceSetting\backend\interfaces\IReplaceSettingService;
 use YiiConfigure\replaceSetting\models\ReplaceSetting;
 use YiiHelper\abstracts\Service;
+use YiiHelper\helpers\Pager;
 use YiiHelper\helpers\Req;
 use Zf\Helper\Exceptions\BusinessException;
 use Zf\Helper\Exceptions\ForbiddenHttpException;
+use Zf\Helper\Exceptions\UnsupportedException;
 
 /**
  * 服务类: 替换配置(web，只为编辑内容提供接口输出)
@@ -25,36 +27,150 @@ use Zf\Helper\Exceptions\ForbiddenHttpException;
  */
 class ReplaceSettingService extends Service implements IReplaceSettingService
 {
-    /**
-     * @var ReplaceSetting
-     */
-    protected $setting;
+    protected $isSuper; // 是否超管
 
     /**
      * 在action前统一执行
      *
      * @param Action|null $action
      * @return bool
-     * @throws Exception
      */
     public function beforeAction(Action $action = null)
     {
-        if ('options' !== $action->id) {
-            $this->setting = ReplaceSetting::findOne([
-                'code' => $action->controller->getParam('code', null),
-            ]);
-            if (null === $this->setting) {
-                throw new BusinessException("替换配置不存在");
-            }
-            if (!$this->setting->is_open && !Req::getIsSuper()) {
-                throw new ForbiddenHttpException("您无权操作该配置");
-            }
-        }
+        $this->isSuper = Req::getIsSuper();
         return parent::beforeAction($action);
     }
 
     /**
-     * 开放状态的替换配置做成选项
+     * 必须是超管才能操作
+     *
+     * @throws ForbiddenHttpException
+     */
+    protected function requireSuper()
+    {
+        if (!$this->isSuper) {
+            throw new ForbiddenHttpException("您无权操作");
+        }
+    }
+
+    /**
+     * 项目列表
+     *
+     * @param array|null $params
+     * @return array
+     */
+    public function list(array $params = []): array
+    {
+        $query = ReplaceSetting::find()
+            ->select([
+                "code",
+                "name",
+                "description",
+                "IFNULL(content, template)",
+                "sort_order",
+                "is_open",
+                "replace_fields",
+            ])
+            ->orderBy('sort_order ASC');
+        if ($this->isSuper) {
+            // 等于查询
+            $this->attributeWhere($query, $params, 'is_open');
+        } else {
+            // 非超管人员，只能查看开放配置
+            $this->attributeWhere($query, $params, IS_YES);
+        }
+        // like 查询
+        $this->likeWhere($query, $params, ['code', 'name']);
+        return Pager::getInstance()->pagination($query, $params['pageNo'], $params['pageSize']);
+    }
+
+    /**
+     * 仅供超管使用: 添加替换配置
+     *
+     * @param array $params
+     * @return bool
+     * @throws ForbiddenHttpException
+     * @throws \yii\base\InvalidConfigException
+     * @throws \yii\db\Exception
+     */
+    public function add(array $params): bool
+    {
+        $this->requireSuper();
+        $model = Yii::createObject(ReplaceSetting::class);
+        $model->setFilterAttributes($params);
+        return $model->saveOrException();
+    }
+
+    /**
+     * 仅供超管使用: 编辑替换配置
+     *
+     * @param array $params
+     * @return bool
+     * @throws BusinessException
+     * @throws ForbiddenHttpException
+     * @throws \yii\db\Exception
+     */
+    public function edit(array $params): bool
+    {
+        $this->requireSuper();
+        $model = $this->getModel($params);
+        unset($params['code']);
+        $model->setFilterAttributes($params);
+        return $model->saveOrException();
+    }
+
+    /**
+     * 删除替换配置
+     *
+     * @param array $params
+     * @return bool
+     * @throws BusinessException
+     * @throws ForbiddenHttpException
+     * @throws \Throwable
+     * @throws \yii\db\StaleObjectException
+     */
+    public function del(array $params): bool
+    {
+        throw new UnsupportedException("该功能未开通，建议通过SQL实现");
+        //$this->requireSuper();
+        //return $this->getModel($params)->delete();
+    }
+
+    /**
+     * 仅供超管使用: 查看详情
+     *
+     * @param array $params
+     * @return mixed|ReplaceSetting
+     * @throws BusinessException
+     * @throws ForbiddenHttpException
+     */
+    public function view(array $params)
+    {
+        $this->requireSuper();
+        return $this->getModel($params);
+    }
+
+    /**
+     * 替换配置设置成默认内容
+     *
+     * @param array $params
+     * @return bool
+     * @throws BusinessException
+     * @throws ForbiddenHttpException
+     * @throws \yii\db\Exception
+     */
+    public function setDefault(array $params = []): bool
+    {
+        $model = $this->getModel($params);
+        if (!$this->isSuper && !$model->is_open) {
+            throw new ForbiddenHttpException("您无权操作该配置");
+        }
+        $model->content = NULL;
+        return $model->saveOrException();
+    }
+
+    /**
+     * 替换配置做成选项卡
      *
      * @return array
      */
@@ -65,24 +181,12 @@ class ReplaceSettingService extends Service implements IReplaceSettingService
                 "code",
                 "name",
             ])
-            ->andWhere(['=', 'is_open', IS_YES])
             ->orderBy('sort_order ASC');
+        if (!$this->isSuper) {
+            $query->andWhere(['=', 'is_open', IS_YES]);
+        }
         return $query->asArray()
             ->all();
-    }
-
-    /**
-     * 开放状态的替换配置设置成默认内容
-     *
-     * @param array $params
-     * @return bool
-     * @throws \yii\db\Exception
-     */
-    public function setDefault(array $params = []): bool
-    {
-        $model          = $this->setting;
-        $model->content = NULL;
-        return $model->saveOrException();
     }
 
     /**
@@ -90,11 +194,16 @@ class ReplaceSettingService extends Service implements IReplaceSettingService
      *
      * @param array $params
      * @return bool
+     * @throws BusinessException
+     * @throws ForbiddenHttpException
      * @throws \yii\db\Exception
      */
-    public function save(array $params = []): bool
+    public function saveContent(array $params = []): bool
     {
-        $model          = $this->setting;
+        $model = $this->getModel($params);
+        if (!$this->isSuper && !$model->is_open) {
+            throw new ForbiddenHttpException("您无权操作该配置");
+        }
         $model->content = $params['content'];
         return $model->saveOrException();
     }
@@ -104,10 +213,11 @@ class ReplaceSettingService extends Service implements IReplaceSettingService
      *
      * @param array $params
      * @return array
+     * @throws BusinessException
      */
     public function detail(array $params = []): array
     {
-        $model = $this->setting;
+        $model = $this->getModel($params);
         return [
             "code"           => $model->code,
             "name"           => $model->name,
@@ -115,5 +225,23 @@ class ReplaceSettingService extends Service implements IReplaceSettingService
             "content"        => $model->content ?: $model->template,
             "replace_fields" => $model->replace_fields,
         ];
+    }
+
+    /**
+     * 获取当前操作模型
+     *
+     * @param array $params
+     * @return ReplaceSetting
+     * @throws BusinessException
+     */
+    protected function getModel(array $params): ReplaceSetting
+    {
+        $model = ReplaceSetting::findOne([
+            'code' => $params['code'] ?? null
+        ]);
+        if (null === $model) {
+            throw new BusinessException("替换配置不存在");
+        }
+        return $model;
     }
 }
