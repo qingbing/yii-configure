@@ -128,8 +128,8 @@ class HeaderOptionController extends RestController
             ['params', JsonValidator::class, 'label' => '参数内容'],
             ['description', 'string', 'label' => '表头选项描述'],
             ['sort_order', 'integer', 'label' => '排序'],
-            ['is_required', 'in', 'label' => '必填', 'range' => array_keys(TLabelYesNo::isLabels())],
-            ['is_default', 'in', 'label' => '默认开启', 'range' => array_keys(TLabelYesNo::isLabels())],
+            ['is_required', 'boolean', 'label' => '必填'],
+            ['is_default', 'boolean', 'label' => '默认开启'],
             ['is_enable', 'boolean', 'label' => '是否开启'],
         ]);
         // 业务处理

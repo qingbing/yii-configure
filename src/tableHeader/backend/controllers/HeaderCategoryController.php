@@ -40,7 +40,7 @@ class HeaderCategoryController extends RestController
         $params = $this->validateParams([
             ['key', 'string', 'label' => '表头标记'],
             ['name', 'string', 'label' => '表头别名'],
-            ['is_open', 'in', 'range' => array_keys(TLabelYesNo::isLabels()), 'label' => '是否公开'],
+            ['is_open', 'boolean', 'label' => '是否公开'],
         ], null, true);
 
         // 业务处理
@@ -64,7 +64,7 @@ class HeaderCategoryController extends RestController
             ['name', 'unique', 'label' => '表头别名', 'targetClass' => HeaderCategory::class, 'targetAttribute' => 'name'],
             ['description', 'string', 'label' => '表头描述'],
             ['sort_order', 'integer', 'label' => '排序'],
-            ['is_open', 'in', 'range' => array_keys(TLabelYesNo::isLabels()), 'label' => '是否公开'],
+            ['is_open', 'boolean', 'label' => '是否公开'],
         ]);
 
         // 业务处理
@@ -93,7 +93,7 @@ class HeaderCategoryController extends RestController
             ],
             ['description', 'string', 'label' => '表头描述'],
             ['sort_order', 'integer', 'label' => '排序'],
-            ['is_open', 'in', 'range' => array_keys(TLabelYesNo::isLabels()), 'label' => '是否公开'],
+            ['is_open', 'boolean', 'label' => '是否公开'],
         ]);
         // 业务处理
         $res = $this->service->edit($params);
