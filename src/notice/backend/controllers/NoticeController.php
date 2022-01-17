@@ -14,7 +14,6 @@ use YiiConfigure\notice\backend\services\NoticeService;
 use YiiConfigure\notice\models\Notice;
 use YiiHelper\abstracts\RestController;
 use Zf\Helper\Traits\Models\TLabelEnable;
-use Zf\Helper\Traits\Models\TLabelYesNo;
 
 /**
  * 控制器: 后台公告管理
