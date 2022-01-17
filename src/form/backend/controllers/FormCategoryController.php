@@ -13,7 +13,6 @@ use YiiConfigure\form\backend\interfaces\IFormCategoryService;
 use YiiConfigure\form\backend\services\FormCategoryService;
 use YiiConfigure\form\models\FormCategory;
 use YiiHelper\abstracts\RestController;
-use Zf\Helper\Traits\Models\TLabelYesNo;
 
 /**
  * 控制器: 表单类型管理
