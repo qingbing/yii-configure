@@ -12,7 +12,6 @@ use Exception;
 use YiiConfigure\notice\frontend\interfaces\INoticeService;
 use YiiConfigure\notice\frontend\services\NoticeService;
 use YiiHelper\abstracts\RestController;
-use Zf\Helper\Traits\Models\TLabelYesNo;
 
 /**
  * 控制器(前台使用): 前端展示公告
