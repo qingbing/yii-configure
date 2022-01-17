@@ -42,10 +42,10 @@ class NoticeController extends RestController
             ['tag', 'string', 'label' => '标签'],
             ['description', 'string', 'label' => '描述'],
             ['author', 'string', 'label' => '发布者'],
-            ['is_top', 'in', 'range' => array_keys(TLabelYesNo::isLabels()), 'label' => '是否置顶'],
+            ['is_top', 'boolean', 'label' => '是否置顶'],
             ['is_enable', 'in', 'range' => array_keys(TLabelEnable::enableLabels()), 'label' => '启用状态'],
             // 有效期规则
-            ['isExpire', 'in', 'label' => '是否有效', 'range' => array_keys(TLabelYesNo::isLabels())],
+            ['isExpire', 'boolean', 'label' => '是否有效'],
         ], null, true);
         // 业务处理
         $res = $this->service->list($params);
@@ -69,7 +69,7 @@ class NoticeController extends RestController
             ['tag', 'string', 'label' => '标签'],
             ['description', 'string', 'label' => '描述'],
             ['author', 'string', 'label' => '发布者'],
-            ['is_top', 'in', 'default' => '0', 'range' => array_keys(TLabelYesNo::isLabels()), 'label' => '是否置顶'],
+            ['is_top', 'boolean', 'default' => '0', 'label' => '是否置顶'],
             ['is_enable', 'in', 'default' => '0', 'range' => array_keys(TLabelEnable::enableLabels()), 'label' => '启用状态'],
             [
                 'expire_ip',
@@ -105,7 +105,7 @@ class NoticeController extends RestController
             ['tag', 'string', 'label' => '标签'],
             ['description', 'string', 'label' => '描述'],
             ['author', 'string', 'label' => '发布者'],
-            ['is_top', 'in', 'default' => '0', 'range' => array_keys(TLabelYesNo::isLabels()), 'label' => '是否置顶'],
+            ['is_top', 'boolean', 'default' => '0', 'label' => '是否置顶'],
             ['is_enable', 'in', 'default' => '0', 'range' => array_keys(TLabelEnable::enableLabels()), 'label' => '启用状态'],
             [
                 'expire_ip',
