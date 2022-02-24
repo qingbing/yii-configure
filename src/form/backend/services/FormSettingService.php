@@ -26,6 +26,7 @@ class FormSettingService extends Service implements IFormSettingService
      *
      * @param array $params
      * @return bool|mixed|string|null
+     * @throws BusinessException
      */
     public function get(array $params)
     {

@@ -146,6 +146,7 @@ class FormSetting
      * @param string|null $formKey
      * @param string|null $default
      * @return bool|mixed|string|null
+     * @throws BusinessException
      */
     public function get(?string $formKey = null, ?string $default = null)
     {
@@ -160,6 +161,9 @@ class FormSetting
             }
             return $this->mergeSetting($values);
         });
+        if (empty($settings)) {
+            throw new BusinessException("配置表单尚未设置表单项目");
+        }
         if (null === $formKey) {
             return $settings;
         }

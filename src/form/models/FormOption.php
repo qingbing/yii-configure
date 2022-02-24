@@ -3,7 +3,9 @@
 namespace YiiConfigure\form\models;
 
 
+use YiiConfigure\form\logic\FormSetting as FormSettingLogic;
 use YiiHelper\abstracts\Model;
+use YiiHelper\helpers\AppHelper;
 
 /**
  * This is the model class for table "{{%form_option}}".
@@ -23,6 +25,8 @@ use YiiHelper\abstracts\Model;
  * @property string $required_msg 必填时信息为空的提示
  * @property string $created_at 创建时间
  * @property string $updated_at 更新时间
+ *
+ * @property-read FormCategory $category
  */
 class FormOption extends Model
 {
@@ -74,6 +78,31 @@ class FormOption extends Model
             'created_at'   => '创建时间',
             'updated_at'   => '更新时间',
         ];
+    }
+
+    /**
+     * 获取归属的菜单类型
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCategory()
+    {
+        return $this->hasOne(FormCategory::class, ['key' => 'key']);
+    }
+
+    /**
+     * 保存成功后执行事件
+     *
+     * @param bool $insert
+     * @param array $changedAttributes
+     */
+    public function afterSave($insert, $changedAttributes)
+    {
+        parent::afterSave($insert, $changedAttributes);
+        if ($this->category->is_setting) {
+            // 如果是配置，删除保存的配置值信息
+            AppHelper::app()->cacheHelper->delete(FormSettingLogic::getInstance($this->key)->getCacheKey());
+        }
     }
 
     /**

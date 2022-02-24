@@ -8,6 +8,7 @@
 namespace YiiConfigure\form\actions;
 
 
+use Exception;
 use yii\base\Action;
 use YiiConfigure\form\logic\FormSetting as FormSettingLogic;
 use YiiConfigure\form\models\FormCategory;
@@ -30,8 +31,7 @@ class ActionFormSetting extends Action
      *
      * @return bool|mixed|string|null
      * @return array
-     * @throws \Zf\Helper\Exceptions\BusinessException
-     * @throws \yii\base\InvalidConfigException
+     * @throws Exception
      */
     public function run()
     {
