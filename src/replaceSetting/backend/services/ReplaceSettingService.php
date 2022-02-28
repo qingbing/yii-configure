@@ -34,15 +34,6 @@ class ReplaceSettingService extends SuperService implements IReplaceSettingServi
     public function list(array $params = []): array
     {
         $query = ReplaceSetting::find()
-            ->select([
-                "code",
-                "name",
-                "description",
-                "IFNULL(content, template)",
-                "sort_order",
-                "is_open",
-                "replace_fields",
-            ])
             ->orderBy('sort_order ASC');
         if ($this->isSuper) {
             // 等于查询

@@ -59,14 +59,13 @@ class ReplaceSettingController extends RestController
     {
         // 参数验证和获取
         $params = $this->validateParams([
-            [['code', 'name', 'template', 'content', 'description', 'sort_order', 'is_open'], 'required'],
+            [['code', 'name', 'description', 'sort_order', 'is_open'], 'required'],
             [['is_open', 'sort_order'], 'integer'],
             ['code', 'unique', 'label' => '标识码', 'targetClass' => ReplaceSetting::class],
             ['name', 'unique', 'label' => '配置名称', 'targetClass' => ReplaceSetting::class],
             ['is_open', 'boolean', 'label' => '公开状态'],
             ['sort_order', 'safe', 'label' => '排序'],
             ['template', 'safe', 'label' => '模板'],
-            ['content', 'safe', 'label' => '替换内容'],
             ['description', 'safe', 'label' => '描述'],
             ['replace_fields', JsonValidator::class, 'label' => '字段集'],
         ]);

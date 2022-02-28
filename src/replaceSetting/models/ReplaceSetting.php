@@ -78,6 +78,8 @@ class ReplaceSetting extends Model
     {
         if (is_string($this->replace_fields) && is_json($this->replace_fields)) {
             $this->replace_fields = json_decode($this->replace_fields, true);
+        } else {
+            $this->replace_fields = [];
         }
         // 确保replace的替换字段都携带有模版符号"{{}}"
         $replaceFields = [];
